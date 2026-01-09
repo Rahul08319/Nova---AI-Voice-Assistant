@@ -1,0 +1,8 @@
+{
+  "name": "Nova - AI Voice Assistant",
+  "description": "A sophisticated real-time voice assistant powered by Gemini 2.5 Flash. Nova can process voice commands, search the web, tell the time, and provide weather updates with low-latency human-like speech responses.",
+  "requestFramePermissions": [
+    "microphone",
+    "geolocation"
+  ]
+}
