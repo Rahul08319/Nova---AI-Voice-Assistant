@@ -1,9 +1,9 @@
-
 export interface Message {
   id: string;
   role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp: Date;
+  toolResult?: ToolCallResult;
 }
 
 export enum VoiceName {
@@ -35,10 +35,14 @@ export interface VoiceAssistantState {
   isConnecting: boolean;
   isListening: boolean;
   error: string | null;
+  volume: number;
+  latencyMs: number;
+  activeTool: string | null;
 }
 
 export interface ToolCallResult {
   name: string;
   args: any;
   result: any;
+  category?: string;
 }

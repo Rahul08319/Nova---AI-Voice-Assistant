@@ -1,6 +1,6 @@
 {
-  "name": "Nova - AI Voice Assistant",
-  "description": "A sophisticated real-time voice assistant powered by Gemini 2.5 Flash. Nova can process voice commands, search the web, tell the time, and provide weather updates with low-latency human-like speech responses.",
+  "name": "Voice Command Assistant (Nova Studio Edition)",
+  "description": "An ultra-premium Apple Liquid Glass voice command assistant powered by Gemini 2.5 Live Multimodal Audio with real-time audio DSP, custom sound triggers, dynamic tool execution, and automated year synchronization.",
   "requestFramePermissions": [
     "microphone",
     "geolocation"

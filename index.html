@@ -1,65 +1,236 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova AI Voice Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#08090c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Voice Command Assistant — Apple Studio Edition</title>
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              apple: {
+                bg: '#08090c',
+                card: 'rgba(18, 22, 33, 0.72)',
+                border: 'rgba(255, 255, 255, 0.08)',
+                blue: '#0A84FF',
+                cyan: '#00C7BE',
+                green: '#30D158',
+                indigo: '#5E5CE6',
+                orange: '#FF9F0A',
+                pink: '#FF375F',
+                purple: '#BF5AF2',
+                yellow: '#FFD60A'
+              }
+            },
+            fontFamily: {
+              sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', 'system-ui', 'sans-serif'],
+              mono: ['"SF Mono"', '"JetBrains Mono"', 'Menlo', 'monospace']
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Icons & Typography -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --apple-surface: rgba(18, 22, 33, 0.72);
+            --apple-border: rgba(255, 255, 255, 0.1);
+            --apple-highlight: rgba(255, 255, 255, 0.15);
+            --apple-glow-cyan: rgba(0, 199, 190, 0.35);
+            --apple-glow-blue: rgba(10, 132, 255, 0.35);
+            --apple-glow-pink: rgba(255, 55, 95, 0.35);
+        }
+
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
-            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+            background-color: #07080a;
+            color: #f5f5f7;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            user-select: none;
         }
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .glass {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
+
+        /* Apple Liquid Glass Surface */
+        .liquid-glass {
+            background: rgba(18, 22, 32, 0.68);
+            backdrop-filter: blur(36px) saturate(210%);
+            -webkit-backdrop-filter: blur(36px) saturate(210%);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.14),
+                0 20px 50px rgba(0, 0, 0, 0.5);
         }
-        @keyframes pulse-ring {
-            0% { transform: scale(.33); }
-            80%, 100% { opacity: 0; }
+
+        .liquid-glass-subtle {
+            background: rgba(15, 18, 26, 0.5);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
-        @keyframes pulse-dot {
-            0% { transform: scale(.8); }
-            50% { transform: scale(1); }
-            100% { transform: scale(.8); }
+
+        .liquid-glass-button {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .mic-active::before {
-            content: '';
+        .liquid-glass-button:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .liquid-glass-button:active {
+            transform: scale(0.97);
+        }
+
+        /* Siri / Nova Realistic Living Fluid Orb */
+        .nova-orb-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nova-orb-core {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #4facfe 0%, #00f2fe 30%, #7f00ff 70%, #000 100%);
+            box-shadow: 
+                0 0 60px rgba(0, 242, 254, 0.4),
+                0 0 100px rgba(127, 0, 255, 0.3),
+                inset -10px -10px 30px rgba(0, 0, 0, 0.8),
+                inset 10px 10px 25px rgba(255, 255, 255, 0.4);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: orb-breathe 4s ease-in-out infinite alternate;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .nova-orb-core.active {
+            animation: orb-speaking 2s ease-in-out infinite alternate;
+            box-shadow: 
+                0 0 80px rgba(0, 242, 254, 0.6),
+                0 0 130px rgba(255, 55, 95, 0.4),
+                inset -10px -10px 30px rgba(0, 0, 0, 0.8),
+                inset 10px 10px 30px rgba(255, 255, 255, 0.6);
+        }
+
+        .nova-orb-core.listening {
+            animation: orb-listening 1.4s ease-in-out infinite alternate;
+            background: radial-gradient(circle at 30% 30%, #00c7be 0%, #0a84ff 35%, #5e5ce6 75%, #05060a 100%);
+        }
+
+        @keyframes orb-breathe {
+            0% { transform: scale(0.96) rotate(0deg); filter: hue-rotate(0deg); }
+            50% { transform: scale(1.02) rotate(180deg); filter: hue-rotate(30deg); }
+            100% { transform: scale(0.96) rotate(360deg); filter: hue-rotate(0deg); }
+        }
+
+        @keyframes orb-speaking {
+            0% { transform: scale(1.0) rotate(0deg); filter: hue-rotate(0deg); }
+            25% { transform: scale(1.08) rotate(90deg); filter: hue-rotate(45deg); }
+            50% { transform: scale(0.95) rotate(180deg); filter: hue-rotate(90deg); }
+            75% { transform: scale(1.1) rotate(270deg); filter: hue-rotate(135deg); }
+            100% { transform: scale(1.0) rotate(360deg); filter: hue-rotate(180deg); }
+        }
+
+        @keyframes orb-listening {
+            0% { transform: scale(0.98); filter: brightness(1); }
+            50% { transform: scale(1.06); filter: brightness(1.25); }
+            100% { transform: scale(0.98); filter: brightness(1); }
+        }
+
+        /* Concentric Acoustic Waves */
+        .acoustic-wave {
             position: absolute;
-            display: block;
-            width: 300%;
-            height: 300%;
-            box-sizing: border-box;
-            margin-left: -100%;
-            margin-top: -100%;
-            border-radius: 45px;
-            background-color: #3b82f6;
-            animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            border-radius: 50%;
+            border: 1.5px solid rgba(0, 199, 190, 0.25);
+            pointer-events: none;
+            opacity: 0;
+            animation: wave-expand 3s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+        }
+
+        .acoustic-wave:nth-child(1) { width: 170px; height: 170px; animation-delay: 0s; }
+        .acoustic-wave:nth-child(2) { width: 220px; height: 220px; animation-delay: 0.9s; }
+        .acoustic-wave:nth-child(3) { width: 270px; height: 270px; animation-delay: 1.8s; }
+
+        @keyframes wave-expand {
+            0% { transform: scale(0.7); opacity: 0.8; border-color: rgba(0, 199, 190, 0.5); }
+            60% { opacity: 0.3; border-color: rgba(10, 132, 255, 0.3); }
+            100% { transform: scale(1.5); opacity: 0; border-color: rgba(94, 92, 230, 0); }
+        }
+
+        /* Ambient Chromatic Glow */
+        .ambient-glow {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.15) 0%, rgba(0, 199, 190, 0.08) 40%, transparent 70%);
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            transition: opacity 1s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.35.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+    
+    <script type="importmap">
+    {
+      "imports": {
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "@google/genai": "https://esm.sh/@google/genai@^1.35.0"
+      }
+    }
+    </script>
 </head>
-<body>
-    <div id="root"></div>
-<script type="module" src="/index.tsx"></script>
+<body class="bg-[#07080a] text-slate-100 min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div class="ambient-glow" id="ambient-glow"></div>
+    <div id="root" class="relative z-10"></div>
+    <script type="module" src="/index.tsx"></script>
 </body>
 </html>
